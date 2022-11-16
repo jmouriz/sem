@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'dart:math';
+
+//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:park/controllers/controllers.dart';
@@ -10,7 +12,8 @@ class Child2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _controller = Get.find<ApplicationController>();
-    final _count = (_controller.safeHeight / kMinInteractiveDimension).floor() - 1;
+    final _count = (_controller.safeHeight / kMinInteractiveDimension).floor() - 2;
+    final DataTableSource _data = DataSource();
 
     Get.find<ToolbarController>().actions.value = [
       ActionModel(
@@ -23,10 +26,17 @@ class Child2 extends StatelessWidget {
       ),
     ];
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: DataTable(
+    return Theme(
+      data: Theme.of(context).copyWith(
+        cardTheme: const CardTheme(
+          elevation: 0,
+        )
+      ),
+      child: PaginatedDataTable(
+        source: _data,
         sortColumnIndex: 0,
+        rowsPerPage: _count,
+        showCheckboxColumn: false,
         columns: const [
           DataColumn(label: Text('#')),
           DataColumn(label: Text('Comprador')),
@@ -34,27 +44,41 @@ class Child2 extends StatelessWidget {
           DataColumn(label: Text('Precio')),
           DataColumn(label: Text('')),
         ],
-        rows: [
-          for (var i = 0; i < _count; i++) DataRow(
-            cells: [
-              DataCell(Text('$i')),
-              DataCell(Text('comprador$i@gmail.com')),
-              DataCell(Text('vendedor$i@gmail.com')),
-              DataCell(Text('${i * 10}')),
-              const DataCell(Icon(Icons.folder)),
-            ]
-          ),
-          const DataRow(
-            cells: [
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('')),
-              DataCell(Text('1000')),
-              DataCell(Text('')),
-            ]
-          ),
-        ],
       ),
+    );
+  }
+}
+
+class DataSource extends DataTableSource {
+  final List<Map<String, dynamic>> _data = List.generate(
+    1000,
+    (index) => {
+      'id': index,
+      'user': 'user$index@domain.com',
+      'vendor': 'vendor$index@domain.com',
+      'price': Random().nextDouble() * 500,
+    }
+  );
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => _data.length;
+
+  @override
+  int get selectedRowCount => 0;
+
+  @override
+  DataRow getRow(int index) {
+    return DataRow(
+      cells: [
+        DataCell(Text(_data[index]['id'].toString())),
+        DataCell(Text(_data[index]['user'])),
+        DataCell(Text(_data[index]['vendor'])),
+        DataCell(Text(_data[index]['price'].toStringAsFixed(2))),
+        const DataCell(Icon(Icons.delete)),
+      ]
     );
   }
 }

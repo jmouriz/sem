@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class Info extends StatelessWidget {
   final ValueChanged<String>? navigate;
@@ -7,7 +8,49 @@ class Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('''
+    return Markdown(
+      styleSheet: MarkdownStyleSheet(
+        textAlign: WrapAlignment.spaceBetween,
+      ),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      onTapLink: (text, href, title) {
+        print('$text, $href, $title');
+      },
+      data: '''
+# Minimal Markdown Test
+
+This is a simple Markdown test. Provide a text string with Markdown tags
+to the Markdown widget and it will display the formatted output in a
+scrollable widget.
+
+## Section 1
+
+Maecenas eget **arcu egestas**, mollis ex vitae, posuere magna. Nunc eget
+aliquam tortor. Vestibulum porta sodales efficitur. Mauris interdum turpis
+eget est condimentum, vitae porttitor diam ornare.
+[Link support](https://tecnologica.ar "Link to browser")
+
+### Subsection A
+
+Sed et massa finibus, blandit massa vel, vulputate velit. Vestibulum vitae
+venenatis libero. **__Curabitur sem lectus, feugiat eu justo in, eleifend
+accumsan ante.__** Sed a fermentum elit. Curabitur sodales metus id mi
+ornare, in ullamcorper magna congue.
+
+AlignTest
+
+> blockquote blockquote blockquote blockquote blockquote blockquote blockquote
+> blockquote blockquote blockquote blockquote blockquote blockquote blockquote
+> blockquote blockquote blockquote blockquote blockquote blockquote blockquote
+> blockquote blockquote blockquote blockquote blockquote blockquote blockquote
+> blockquote blockquote blockquote blockquote blockquote blockquote blockquote
+> blockquote blockquote blockquote blockquote blockquote blockquote blockquote
+
+---
+
+# Scrolling Large Text
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin felis velit, vehicula eu felis non, mollis euismod neque. Cras posuere nunc sed diam lobortis, sit amet bibendum dui tempor. Phasellus massa lorem, vehicula ac venenatis vitae, varius in ipsum. Quisque feugiat accumsan sapien, sit amet tempor quam porttitor et. Vestibulum quis varius augue. Nulla facilisi. In volutpat sapien in eleifend porttitor. Nulla condimentum iaculis odio ut cursus. Fusce eget velit at nisl bibendum eleifend. Praesent viverra tortor nec erat blandit, sed rhoncus leo condimentum. Vivamus consequat, eros id consectetur vestibulum, est augue efficitur orci, a vestibulum mauris sapien vel lacus. Praesent tristique purus tempus, vulputate nisl ac, porttitor eros. Sed felis dui, congue et odio nec, efficitur eleifend tortor.
 
 Donec ac malesuada metus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus at orci mollis risus blandit aliquet. Morbi non ex diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus aliquam dapibus lectus sed porttitor. Quisque vitae lectus urna. Suspendisse ultrices lobortis purus, ac ornare libero.
@@ -28,7 +71,6 @@ Nullam finibus nulla ac lorem molestie ultrices. Sed quis gravida justo, a facil
 
 Nam id eros vel ante convallis blandit non in quam. Morbi euismod nunc ac lobortis hendrerit. Quisque condimentum, enim in congue elementum, nulla tellus pretium mauris, in ultrices eros purus sed tellus. Mauris ex sem, dictum sed urna consectetur, euismod imperdiet enim. Duis commodo eros non arcu vestibulum, ac accumsan tortor porta. Suspendisse semper a metus eget iaculis. Curabitur in sagittis mi.
 ''',
-      textAlign: TextAlign.justify,
     );
   }
 }

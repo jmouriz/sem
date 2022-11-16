@@ -74,8 +74,9 @@ class _ApplicationState extends State<Application> {
 
     PreferredSizeWidget _header;
 
-    Color? _backgroundColor =
-        _controller.dark ? Colors.grey[900] : Colors.grey[300];
+    Color? _backgroundColor = _controller.dark
+      ? Colors.grey[900]
+      : Colors.grey[300];
 
     if (_controller.searching.value) {
       _header = _searchbar;
@@ -85,7 +86,12 @@ class _ApplicationState extends State<Application> {
 
     return Scaffold(
       key: _key,
-      appBar: _header,
+      appBar: AppBarWidget(
+        count: _controller.searching.value
+          ? _searchbarController.conditions.length
+          : 1,
+        child: _header,
+      ),
       backgroundColor: _backgroundColor,
       drawerScrimColor: Colors.transparent,
       drawerEnableOpenDragGesture: false,
@@ -105,6 +111,50 @@ class _ApplicationState extends State<Application> {
         scroll: _scroll,
         padding: _padding,
       ),
+    );
+  }
+}
+
+class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
+  AppBarWidget({
+    Key? key,
+    required child,
+    count,
+  }) :
+    _child = child,
+    preferredSize = Size.fromHeight((count ?? 1) * kToolbarHeight),
+    super(key: key);
+
+  final Widget _child;
+
+  @override
+  final Size preferredSize;
+
+  @override
+  State<AppBarWidget> createState() => _AppBarWidgetState();
+}
+
+class _AppBarWidgetState extends State<AppBarWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      //reverseDuration: const Duration(milliseconds: 100),
+      //switchInCurve: Curves.bounceInOut,
+      //switchOutCurve: Curves.easeOutCirc,
+      /*
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return SlideTransition(
+          position: Tween(
+            begin: Offset(0.0, animation.isCompleted ? 1.0 : -1.0),
+            //begin: Offset(1.0, 1.0),
+            end: Offset.zero
+          ).animate(animation),
+          child: child, // widget._child,
+        );
+      },
+      */
+      child: widget._child
     );
   }
 }

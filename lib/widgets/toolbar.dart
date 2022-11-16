@@ -38,9 +38,10 @@ class Toolbar extends StatefulWidget implements PreferredSizeWidget {
 
 class _ToolbarState extends State<Toolbar> {
   @override
-  //Widget build(BuildContext context) {
-  PreferredSizeWidget build(BuildContext context) {
+  Widget build(BuildContext context) {
+  //PreferredSizeWidget build(BuildContext context) {
     return AppBar(
+      key: const ValueKey<String>('toolbar'),
       leading: IconButton(
         icon: MutableIcon(
           duration: const Duration(milliseconds: 300),

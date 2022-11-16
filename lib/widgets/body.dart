@@ -31,9 +31,9 @@ class Body extends StatelessWidget {
         );
       },
       child: SafeArea(
+        key: ValueKey<String>('container/$_child'),
         top: false,
         child: Container(
-          key: ValueKey<String>('container/${_child}'),
           alignment: Alignment.topCenter,
           child: Card(
             shape: RoundedRectangleBorder(
@@ -45,6 +45,7 @@ class Body extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(_padding),
                 child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   controller: _scroll,
                   child: Menu.get(_child).target,
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
+//import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:park/controllers/controllers.dart';
 //import 'package:park/models/models.dart';
 //import 'package:park/providers/providers.dart';
@@ -45,22 +45,12 @@ class _SearchbarState extends State<Searchbar> {
   @override
   Widget build(BuildContext context) {
   //PreferredSizeWidget build(BuildContext context) {
-    return AnimatedSwitcher( // ! La animación no funciona
-      duration: const Duration(milliseconds: 3000),
-      transitionBuilder: (Widget child, Animation<double> animation) {
-        return SlideTransition(
-          position: Tween(
-            begin: Offset(animation.isCompleted ? -1.0 : 1.0, 0.0),
-            //begin: Offset(1.0, 1.0),
-            end: Offset.zero
-          ).animate(animation),
-          child: child
-        );
-      },
-      child: Container(
-        key: const ValueKey<String>('searchbar'),
-        child: AppBar( // ! Viene esto sin animación
-          elevation: 0,
+
+    return Column(
+      children: [
+        AppBar(
+          key: const ValueKey<String>('searchbar'),
+          elevation: 2,
           backgroundColor: Colors.white,
           leading: IconButton(
             icon: const Icon(
@@ -111,7 +101,7 @@ class _SearchbarState extends State<Searchbar> {
             )
           ]
         ),
-      )
+      ],
     );
   }
 }

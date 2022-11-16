@@ -30,27 +30,39 @@ class Vehicles extends StatelessWidget {
       itemBuilder: (_, index) => Material(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: index == 2
-          ? Colors.teal.shade200
+          ? Colors.green.shade200
           : index == 0
-            ? Colors.red.shade200
-            : null,
+          ? Colors.red.shade200
+          : index == 3 
+          ? Colors.teal.shade200
+          : null,
         child: ListTile(
           contentPadding: const EdgeInsets.only(top: 8.0, left: 8.0, bottom: 8.0),
           leading: Badge(
-            child: const Icon(
-              Icons.directions_car,
+            child: Icon(index == 1
+              ? Icons.motorcycle
+              : Icons.directions_car,
               color: Colors.black
             ),
             position: BadgePosition.bottomEnd(),
             showBadge: index == 0 || index == 2,
-            badgeColor: index == 0 ? Colors.red : Colors.green,
+            badgeColor: index == 0
+              ? Colors.red
+              : Colors.green,
           ),
-          title: const Text('EFL537'),
+          title: Text(index == 1
+            ? 'EFL537'
+            : '220IXW'
+          ),
           subtitle: Text(index == 2
             ? 'Estacionado hace 3 minutos'
-            : 'No estacionado'
+            : index == 0
+            ? '2 infracciones pendientes'
+            : index == 3
+            ? 'Promoción hasta el 23/11/2022 a las 13:15'
+            : 'No estacionado',
           ),
-          trailing: index != 0 && index != 2 ? IconButton(
+          trailing: index != 0 && index != 2 && index != 3 ? IconButton(
             icon: const Icon(
               Icons.delete,
               color: Colors.black
